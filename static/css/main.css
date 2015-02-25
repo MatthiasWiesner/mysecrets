@@ -1,0 +1,39 @@
+
+.containerBorder {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+}
+
+#containerMySecret {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#setPassphrase {
+    display: none;
+}
+
+#mySecrets {
+    display: none;
+}
+
+.tagcontainer {
+    float: left;
+    margin-right: 4px;
+    font-size: 10px;
+    background-color: #99CCFF;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    padding: 2px;
+}
+
+#btnNewModal {
+    margin-bottom: 5px;
+}
+
+/* jquery autocomplete menu is behind the bootstrap modal dialog by default */
+ul.ui-autocomplete.ui-menu {
+  z-index: 10000;
+}

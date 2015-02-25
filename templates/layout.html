@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Keep it secret, keep it safe</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/bootstrap.spacelab.css')}}"
+          type="text/css">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.css')}}"
+          type="text/css">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='bower_components/jquery-ui/themes/base/jquery-ui.css')}}"
+          type="text/css">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='bower_components/jquery-ui/themes/base/autocomplete.css')}}"
+          type="text/css">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/main.css') }}"
+          type="text/css">
+
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/jquery-ui/jquery-ui.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/jQuery-Storage-API/jquery.storageapi.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/cryptojslib/components/core.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/cryptojslib/components/enc-base64.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/cryptojslib/components/md5.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/cryptojslib/components/evpkdf.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/cryptojslib/components/cipher-core.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/cryptojslib/components/tripledes.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/mustache/mustache.js')}}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='js/main.js')}}"></script>
+</head>
+<body>
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">MySecrets</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/">Secrets</a></li>
+                <li><a href="/logout/">Logout</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<div id="content" class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<script type="text/template" id="tplNewModal">
+    <!-- Button trigger NewSecret -->
+    <button id="btnNewModal" type="button" class="btn btn-primary btn-md"
+            data-toggle="modal"
+            data-target="#newModal">
+        <span class="small">Enter A New Secret</span>
+    </button>
+
+    <!-- Modal NewSecret -->
+    <div class="modal fade" id="newModal" tabindex="-1" role="dialog"
+         aria-labelledby="newModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="newModalLabel">
+                        Enter a new secret
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form id="createSecretForm">
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <input type="text" class="form-control text ui-widget-content ui-corner-all"
+                                   data-data-field="category"
+                                   placeholder/>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control"
+                                   data-data-field="username"
+                                   placeholder="Enter username"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <button type="button"
+                                    class="btn btn-default btn-xs passwordVisible">
+                                <span class="glyphicon glyphicon-eye-open"
+                                      aria-hidden="true"></span>
+                            </button>
+                            <input type="password" class="form-control"
+                                   data-data-field="password"
+                                   placeholder="Enter password"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="url">URL</label>
+                            <input type="text" class="form-control"
+                                   data-data-field="url"
+                                   placeholder="Enter URL"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="freeText">Free text</label>
+                        <textarea class="form-control"
+                                  data-data-field="freeText"
+                                  placeholder="Enter free text"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags">Tags</label>
+                        <textarea class="form-control"
+                                  data-data-field="tags"
+                                  placeholder="Enter space or comma seperated tags"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">Close
+                    </button>
+                    <button id="createSecret" type="button"
+                            class="btn btn-primary">Save
+                        changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="tplDetailModal">
+    <!-- Modal Deails -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog"
+         aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="detailsModalLabel">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="updateSecretForm">
+                        <input type="hidden" data-data-field="id" value=""/>
+
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control"
+                                   data-data-field="username"
+                                   placeholder="Enter username"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <button type="button"
+                                    class="btn btn-default btn-xs passwordVisible">
+                                <span class="glyphicon glyphicon-eye-open"
+                                      aria-hidden="true"></span>
+                            </button>
+                            <input type="password" class="form-control"
+                                   data-data-field="password"
+                                   placeholder="Enter password"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="url">URL</label>
+                            <input type="text" class="form-control"
+                                   data-data-field="url"
+                                   placeholder="Enter URL"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="freeText">Free text</label>
+                        <textarea class="form-control"
+                                  data-data-field="freeText"
+                                  placeholder="Enter free text"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags">Tags</label>
+                        <textarea class="form-control"
+                                  data-data-field="tags"
+                                  placeholder="Enter space or comma seperated tags"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">Close
+                    </button>
+                    <button id="updateSecret" type="button"
+                            class="btn btn-primary" data-dismiss="modal">Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="tplAccordion">
+<div class="panel-group" id="accordion" role="tablist"
+     aria-multiselectable="true">
+</div>
+</script>
+
+<script type="text/template" id="tplCategory">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading{{index}}"><h4
+                class="panel-title"><a data-toggle="collapse"
+                                       data-parent="#accordion"
+                                       href="#collapse{{index}}" aria-expanded="true"
+                                       aria-controls="collapse{{index}}">{{category}}</a></h4>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="tplCategoryBody">
+    <div id="collapse{{index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{index}}">
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td class="col-md-2">username</td>
+                    <td class="col-md-2">password</td>
+                    <td class="col-md-2">url</td>
+                    <td class="col-md-2">tags</td>
+                    <td class="col-md-2">action</td>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="tplSecretEntry">
+    <tr>
+        <td class="col-md-2"><input class="form-control"
+                                    data-data-field="username"
+                                    value="{{username}}"></td>
+        <td class="col-md-2"><input class="form-control"
+                                    data-data-field="password"
+                                    value="{{password}}"></td>
+        <td class="col-md-2"><input class="form-control"
+                                    data-data-field="url"
+                                    value="{{url}}"></td>
+        <td class="col-md-2 tags"></td>
+        <td class="col-md-2">
+            <button data-doc-id="{{id}}"
+                    type="button"
+                    class="btn btn-default btn-sm docUpdate"><span
+                    class="glyphicon glyphicon-ok"></span></button>
+            <button data-doc-id="{{id}}"
+                    type="button"
+                    class="btn btn-default btn-sm docRemove"><span
+                    class="glyphicon glyphicon-remove"></span>
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script type="text/template" id="tplTagcontainer">
+    <div class='tagcontainer'>{{tag}}</div>
+</script>

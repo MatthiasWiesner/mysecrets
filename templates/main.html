@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div id="containerMySecret" class="col-md-9 containerBorder">
+    <div id="setPassphrase">
+        <div class="form-group">
+            <label for="passphrase">Passphrase</label>
+            <input type="text" class="form-control" id="passphrase" placeholder="Enter passphrase">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </div>
+    <div id="mySecrets">
+        <div id="mySecretEntries"></div>
+    </div>
+    <script type="text/javascript">var prefix = '{{prefix}}';</script>
+</div>
+{% endblock %}

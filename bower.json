@@ -1,0 +1,19 @@
+{
+  "name": "mysecrets",
+  "version": "0.0.0",
+  "authors": [
+    "Matthias Wiesner <matthias.wiesner@googlemail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "jQuery-Storage-API": "julien-maurel/jQuery-Storage-API#~1.7.3",
+    "cryptojslib": "~3.1.2",
+    "jquery-ui": "~1.11.3"
+  }
+}
