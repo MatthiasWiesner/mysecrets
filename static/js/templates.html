@@ -1,11 +1,4 @@
 <script type="text/template" id="tplNewModal">
-    <!-- Button trigger NewSecret -->
-    <button id="btnNewModal" type="button" class="btn btn-primary btn-md"
-            data-toggle="modal"
-            data-target="#newModal">
-        <span class="small">Enter A New Secret</span>
-    </button>
-
     <!-- Modal NewSecret -->
     <div class="modal fade" id="newModal" tabindex="-1" role="dialog"
          aria-labelledby="newModalLabel" aria-hidden="true">
@@ -22,45 +15,48 @@
                 <div class="modal-body">
                     <form id="createSecretForm">
                         <div class="form-group">
-                            <label for="category">Category</label>
-                            <input type="text" class="form-control text ui-widget-content ui-corner-all"
+                            <label for="newCategory">Category</label>
+                            <input id="newCategory" type="text"
+                                   class="form-control text ui-widget-content ui-corner-all"
                                    data-data-field="category"
                                    placeholder/>
                         </div>
                         <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control"
+                            <label for="newUsername">Username</label>
+                            <input id="newUsername" type="text"
+                                   class="form-control"
                                    data-data-field="username"
                                    placeholder="Enter username"/>
                         </div>
                         <div class="form-group">
-                            <label for="password">Password</label>
+                            <label for="newPassword">Password</label>
                             <button type="button"
                                     class="btn btn-default btn-xs passwordVisible">
                                 <span class="glyphicon glyphicon-eye-open"
                                       aria-hidden="true"></span>
                             </button>
-                            <input type="password" class="form-control"
+                            <input id="newPassword" type="password"
+                                   class="form-control"
                                    data-data-field="password"
                                    placeholder="Enter password"/>
                         </div>
                         <div class="form-group">
-                            <label for="url">URL</label>
-                            <input type="text" class="form-control"
+                            <label for="newUrl">URL</label>
+                            <input id="newUrl" type="text" class="form-control"
                                    data-data-field="url"
                                    placeholder="Enter URL"/>
                         </div>
                         <div class="form-group">
-                            <label for="freeText">Free text</label>
-                        <textarea class="form-control"
-                                  data-data-field="freeText"
-                                  placeholder="Enter free text"></textarea>
+                            <label for="newFreeText">Free text</label>
+                            <textarea id="newFreeText" class="form-control"
+                                      data-data-field="freeText"
+                                      placeholder="Enter free text"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="tags">Tags</label>
-                        <textarea class="form-control"
-                                  data-data-field="tags"
-                                  placeholder="Enter space or comma seperated tags"></textarea>
+                            <label for="newTags">Tags</label>
+                            <textarea id="newTags" class="form-control"
+                                      data-data-field="tags"
+                                      placeholder="Enter space or comma seperated tags"></textarea>
                         </div>
                     </form>
                 </div>
@@ -95,39 +91,42 @@
                         <input type="hidden" data-data-field="id" value=""/>
 
                         <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control"
+                            <label for="detailsUsername">Username</label>
+                            <input id="detailsUsername" type="text"
+                                   class="form-control"
                                    data-data-field="username"
                                    placeholder="Enter username"/>
                         </div>
                         <div class="form-group">
-                            <label for="password">Password</label>
+                            <label for="detailsPassword">Password</label>
                             <button type="button"
                                     class="btn btn-default btn-xs passwordVisible">
                                 <span class="glyphicon glyphicon-eye-open"
                                       aria-hidden="true"></span>
                             </button>
-                            <input type="password" class="form-control"
+                            <input id="detailsPassword" type="password"
+                                   class="form-control"
                                    data-data-field="password"
                                    placeholder="Enter password"/>
                         </div>
                         <div class="form-group">
-                            <label for="url">URL</label>
-                            <input type="text" class="form-control"
+                            <label for="detailsUrl">URL</label>
+                            <input id="detailsUrl" type="text"
+                                   class="form-control"
                                    data-data-field="url"
                                    placeholder="Enter URL"/>
                         </div>
                         <div class="form-group">
-                            <label for="freeText">Free text</label>
-                        <textarea class="form-control"
-                                  data-data-field="freeText"
-                                  placeholder="Enter free text"></textarea>
+                            <label for="detailsFreeText">Free text</label>
+                            <textarea id="detailsFreeText" class="form-control"
+                                      data-data-field="freeText"
+                                      placeholder="Enter free text"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="tags">Tags</label>
-                        <textarea class="form-control"
-                                  data-data-field="tags"
-                                  placeholder="Enter space or comma seperated tags"></textarea>
+                            <label for="detailsTags">Tags</label>
+                            <textarea id="detailsTags" class="form-control"
+                                      data-data-field="tags"
+                                      placeholder="Enter space or comma seperated tags"></textarea>
                         </div>
                     </form>
                 </div>
@@ -145,9 +144,9 @@
 </script>
 
 <script type="text/template" id="tplAccordion">
-<div class="panel-group" id="accordion" role="tablist"
-     aria-multiselectable="true">
-</div>
+    <div class="panel-group" id="accordion" role="tablist"
+         aria-multiselectable="true">
+    </div>
 </script>
 
 <script type="text/template" id="tplCategory">
@@ -155,20 +154,29 @@
         <div class="panel-heading" role="tab" id="heading{{index}}"><h4
                 class="panel-title"><a data-toggle="collapse"
                                        data-parent="#accordion"
-                                       href="#collapse{{index}}" aria-expanded="true"
-                                       aria-controls="collapse{{index}}">{{category}}</a></h4>
+                                       href="#collapse{{index}}"
+                                       aria-expanded="true"
+                                       aria-controls="collapse{{index}}">{{category}}</a>
+        </h4>
         </div>
     </div>
 </script>
 
 <script type="text/template" id="tplCategoryBody">
-    <div id="collapse{{index}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{index}}">
+    <div id="collapse{{index}}" class="panel-collapse collapse in"
+         role="tabpanel" aria-labelledby="heading{{index}}">
         <div class="panel-body">
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <td class="col-md-2">username</td>
-                    <td class="col-md-2">password</td>
+                    <td class="col-md-2">password
+                        <button type="button"
+                                class="btn btn-default btn-xs passwordVisible">
+                                <span class="glyphicon glyphicon-eye-open"
+                                      aria-hidden="true"></span>
+                        </button>
+                    </td>
                     <td class="col-md-2">url</td>
                     <td class="col-md-2">tags</td>
                     <td class="col-md-2">action</td>
@@ -186,8 +194,10 @@
                                     data-data-field="username"
                                     value="{{username}}"></td>
         <td class="col-md-2"><input class="form-control"
+                                    type="password"
                                     data-data-field="password"
-                                    value="{{password}}"></td>
+                                    value="{{password}}">
+        </td>
         <td class="col-md-2"><input class="form-control"
                                     data-data-field="url"
                                     value="{{url}}"></td>
@@ -196,7 +206,7 @@
             <button data-doc-id="{{id}}"
                     type="button"
                     class="btn btn-default btn-sm docUpdate"><span
-                    class="glyphicon glyphicon-ok"></span></button>
+                    class="glyphicon glyphicon-search"></span></button>
             <button data-doc-id="{{id}}"
                     type="button"
                     class="btn btn-default btn-sm docRemove"><span
@@ -208,4 +218,52 @@
 
 <script type="text/template" id="tplTagcontainer">
     <div class='tagcontainer'>{{tag}}</div>
+</script>
+
+<script type="text/template" id="tplGeneratePassword">
+    <form id="formGeneratePassword" class="form-horizontal">
+        <div class="form-group">
+            <label for="inputPasswordLength"
+                   class="col-sm-2 control-label">Length</label>
+
+            <div class="col-sm-10">
+                <input class="form-control" id="inputPasswordLength"
+                       placeholder="12" value="12"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Type</label>
+
+            <div class="col-sm-10">
+                <div class="checkbox disabled">
+                    <label>
+                        <input type="checkbox" value="" checked disabled/>
+                        Alphanumeric with numbers [a-z, A-Z, 0-9]
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input id="inputPasswordWithSymbols" type="checkbox"
+                               value=""/>
+                        With symbols e.g. @!§$%
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="btnGeneratePassword" type="button"
+                        class="btn btn-default btn-sm"><span
+                        class="glyphicon glyphicon-cog"></span> Generate
+                </button>
+            </div>
+        </div>
+        <div id="contPasswordResults" class="form-group">
+            <label class="col-sm-2 control-label">Result</label>
+
+            <div class="col-sm-10">
+                <input id="passwordResult" class="form-control" disabled/>
+            </div>
+        </div>
+    </form>
 </script>

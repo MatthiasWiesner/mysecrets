@@ -1,11 +1,18 @@
+import os
 import re
 import json
 
-from flask import render_template, request, Response
+from flask import render_template, request, Response, send_from_directory
 from flask_login import login_required, current_user
 
 from server import app
 from models.secret import get_user_secret_model, get_salted_classname
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 
 @app.route('/')
 @login_required
