@@ -16,9 +16,11 @@ class User(UserMixin):
 
     @staticmethod
     def get(name):
-        user = UserModel.objects.get(name=name)
-        if user:
+        try:
+            user = UserModel.objects.get(name=name)
             return User(user.name, user.password)
+        except UserModel.DoesNotExist:
+            pass
 
 
 @login_manager.user_loader

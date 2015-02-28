@@ -1,1 +1,3 @@
 *.pyc
+.vagrant
+static/.DS_Store

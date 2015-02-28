@@ -4,7 +4,7 @@ from datetime import timedelta
 
 HOST = os.environ.get('HOST', '0.0.0.0')
 PORT = os.environ.get('PORT', 5000)
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 SESSION_LIFETIME = os.environ.get('DEBUG', 3600)
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'mysecretkey')
