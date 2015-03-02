@@ -33,7 +33,15 @@
     margin-bottom: 5px;
 }
 
+#containerComments > .nav {
+    margin-top: 5px;
+}
+
 /* jquery autocomplete menu is behind the bootstrap modal dialog by default */
 ul.ui-autocomplete.ui-menu {
   z-index: 10000;
+}
+
+.commentDate {
+    margin-right: 5px;
 }

@@ -5,6 +5,7 @@ from flask_mongoengine import MongoEngine
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
+app.debug = app.config['DEBUG'] 
 
 db = MongoEngine()
 db.init_app(app)
@@ -15,4 +16,4 @@ if not app.config['DEBUG']:
 # register routes from controllers
 from controllers import login
 from controllers import main
-
+from controllers import comment

@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Keep it secret, keep it safe</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet"
@@ -46,6 +47,8 @@
     <script type="text/javascript"
             src="{{ url_for('static', filename='bower_components/mustache/mustache.js')}}"></script>
     <script type="text/javascript"
+            src="{{ url_for('static', filename='bower_components/pagedown/Markdown.Converter.js')}}"></script>
+    <script type="text/javascript"
             src="{{ url_for('static', filename='js/main.js')}}"></script>
 </head>
 <body>
@@ -66,6 +69,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="https://github.com/MatthiasWiesner/mysecrets" target="_blank">Project on GitHub</a></li>
+                <li><a href="/comments">Comments</a></li>
                 <li><a href="/">Secret</a></li>
                 <li><a href="/logout/">Logout</a></li>
             </ul>
