@@ -10,7 +10,7 @@ SESSION_LIFETIME = os.environ.get('SESSION_LIFETIME', 3600)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'mysecretkey')
 REMEMBER_COOKIE_DURATION = timedelta(seconds=os.environ.get('TOKEN_DURATION', 10))
 
-MONGODB_SETTINGS = {'DB': 'testing'}
+MONGODB_SETTINGS = {'db': 'testing'}
 
 try:
     cred_file = open(os.environ.get('CRED_FILE', ''))
