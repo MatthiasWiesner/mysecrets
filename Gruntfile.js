@@ -29,6 +29,7 @@ module.exports = function(grunt) {
                 src : [
                 'static/bower_components/jquery/dist/jquery.js',
                 'static/bower_components/jquery-ui/jquery-ui.js',
+                'static/bower_components/jquery-simulate/jquery.simulate.js',
                 'static/bower_components/bootstrap/dist/js/bootstrap.js',
                 'static/bower_components/bootbox/bootbox.js',
                 'static/bower_components/jQuery-Storage-API/jquery.storageapi.js',

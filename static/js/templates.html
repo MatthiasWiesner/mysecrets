@@ -274,6 +274,38 @@
     </form>
 </script>
 
+<script type="text/template" id="tplImportSecrets">
+    <div class="modal-body">
+        <label for="content">Please insert a valid JSON list like the example below.</label>
+        <form id="formImportSecrets" class="form-horizontal">
+            <div class="form-group">
+                <textarea id="content" class="form-control"
+                    data-data-field="content"
+                    rows=10>
+[
+  {
+    "category": "Test",
+    "username": "loginName",
+    "password": "loginPassword",
+    "url": "http://some.where.com",
+    "freeText": "some notes",
+    "tags": ["sometag", "othertag"]
+  }
+]
+                </textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+                data-dismiss="modal">Close
+        </button>
+        <button id="btnSaveImports" type="button"
+                class="btn btn-primary">Save Imports
+        </button>
+    </div>
+</script>
+
 <script type="text/template" id="tplComment">
     <!-- Modal NewSecret -->
     <div class="modal fade" id="saveComment" tabindex="-1" role="dialog"

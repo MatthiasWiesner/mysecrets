@@ -76,21 +76,16 @@ function MySecrets(){
                             $('td.tags', $row).append($tag);
                         });
 
-                        $('button.docUpdate', $row).on('click', $.proxy(function(){
-                            this.showDetails(data, document);
-                        }, this));
+                        $('button.docUpdate', $row).on('click', $.proxy(this.showDetails, this, data, document));
 
                         $('button.docRemove', $row).on('click', $.proxy(function(){
                             bootbox.confirm("Are you sure?", $.proxy(function(result) {
-                                console.log(result);
                                 if(result){
                                     $.ajax({
                                         url: '/secret/',
                                         type: 'DELETE',
                                         data: {id: document.id},
-                                        success: $.proxy(function(result) {
-                                            this.getSecrets();
-                                        }, this)
+                                        success: $.proxy(this.getSecrets, this)
                                     });
                                 }
                             }, this));
@@ -120,7 +115,6 @@ function MySecrets(){
             freeText: d.freeText
         });
         encrypted = this.tripledes.encrypt(data);
-
         pdata = {
             data: encrypted,
             tags: d.tags
@@ -131,10 +125,7 @@ function MySecrets(){
         if (d.category) {
             pdata.category = d.category;
         }
-
-        $.post("/secret/", pdata).success($.proxy(function(data){
-            this.getSecrets();
-        }, this));
+        $.post("/secret/", pdata).success($.proxy(this.getSecrets, this, data));
     }
 
     this.createSecret = function(category, username, password, url, freeText, tags){
@@ -165,6 +156,56 @@ function MySecrets(){
             freeText: freeText,
             tags: tags
         });
+    };
+
+    this.exportSecrets = function(){
+        $.getJSON("/secret/").success($.proxy(function(data){
+            documents = [];
+            $.each(data, $.proxy(function(i, doc){
+                try {
+                    var d = JSON.parse(this.tripledes.decrypt(doc.data));
+                    doc.username = d.username;
+                    doc.password = d.password;
+                    doc.url = d.url;
+                    doc.freeText = d.freeText;
+                    delete doc['id'];
+                    delete doc['data'];
+                    delete doc['date'];
+                } catch (err) {
+                    alert('The data could not be decrypted. Please enter a valid passphrase.');
+                    return false;
+                }
+                documents.push(doc);
+            }, this));
+
+            var json = JSON.stringify(documents, null, 2);
+            var blob = new Blob([json], {type: 'application/json'});
+            var url = window.URL.createObjectURL(blob);
+            var a = $("<a />", {
+                href : url,
+                download: 'export_secrets.json'
+            });
+            a.appendTo('body');
+            a.simulate("click");
+            window.URL.revokeObjectURL(url);
+        }, this));
+    };
+
+    this.importSecrets = function(data){
+        $.each(data, $.proxy(function(idx, doc){
+            if (!doc.category) {
+                alert('At least category is required.');
+                return true;
+            }
+            this.saveSecret({
+                category: doc.category,
+                username: doc.username,
+                password: doc.password,
+                url: doc.url,
+                freeText: doc.freeText,
+                tags: String(doc.tags)
+            });
+        }, this));
     };
 
     this.generatePassword = function(length, withSymbols){
@@ -233,6 +274,23 @@ function MySecrets(){
                     $('#contPasswordResults', b).show();
                 }, this));
             }, this));
+
+            $('#btnImportSecrets').on('click', $.proxy(function(){
+                var b = bootbox.dialog({
+                    title: 'Import Secrets',
+                    message: $(templates).filter('#tplImportSecrets').html()
+                });
+                try {
+                    var data = JSON.parse($('#content', b).val());
+                } catch (err) {
+                    alert('The data could not be parsed. Please insert valid json');
+                    return false;
+                }
+                $('#btnSaveImports', b).on('click', $.proxy(this.importSecrets, this, data));
+            }, this));            
+
+            $('#btnExportSecrets').on('click', $.proxy(this.exportSecrets, this));
+
             this.getSecrets();
         }, this));
     };

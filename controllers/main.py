@@ -69,3 +69,4 @@ def delete_secret():
 def _convert_tags(tags):
     taglist = re.split('[,; ]', tags)
     return [x for x in taglist if x]
+
