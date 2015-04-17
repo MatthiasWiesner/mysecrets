@@ -45,3 +45,8 @@ ul.ui-autocomplete.ui-menu {
 .commentDate {
     margin-right: 5px;
 }
+
+.inputDisabled[disabled] {
+    cursor: default;
+    background-color: white;
+}

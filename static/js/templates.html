@@ -75,7 +75,7 @@
 </script>
 
 <script type="text/template" id="tplDetailModal">
-    <!-- Modal Deails -->
+    <!-- Modal Details -->
     <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog"
          aria-labelledby="detailsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -87,15 +87,20 @@
                     <h4 class="modal-title" id="detailsModalLabel">Details</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="updateSecretForm">
+                    <form id="updateSecretForm" autocomplete="off">
                         <input type="hidden" data-data-field="id" value=""/>
+                        <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+                        <!-- currently chrome browser ignores autocomplete attribute -->
+                        <input style="display:none" type="text" name="fakeusernameremembered"/>
+                        <input style="display:none" type="password" name="fakepasswordremembered"/>
 
                         <div class="form-group">
                             <label for="detailsUsername">Username</label>
                             <input id="detailsUsername" type="text"
                                    class="form-control"
                                    data-data-field="username"
-                                   placeholder="Enter username"/>
+                                   placeholder="Enter username"
+                                   autocomplete="off" />
                         </div>
                         <div class="form-group">
                             <label for="detailsPassword">Password</label>
@@ -107,7 +112,8 @@
                             <input id="detailsPassword" type="password"
                                    class="form-control"
                                    data-data-field="password"
-                                   placeholder="Enter password"/>
+                                   placeholder="Enter password"
+                                   autocomplete="off" />
                         </div>
                         <div class="form-group">
                             <label for="detailsUrl">URL</label>
@@ -190,17 +196,17 @@
 
 <script type="text/template" id="tplSecretEntry">
     <tr>
-        <td class="col-md-2"><input class="form-control"
+        <td class="col-md-2"><input class="form-control inputDisabled"
                                     data-data-field="username"
-                                    value="{{username}}"></td>
-        <td class="col-md-2"><input class="form-control"
+                                    value="{{username}}" disabled></td>
+        <td class="col-md-2"><input class="form-control inputDisabled"
                                     type="password"
                                     data-data-field="password"
-                                    value="{{password}}">
+                                    value="{{password}}" disabled>
         </td>
-        <td class="col-md-2"><input class="form-control"
+        <td class="col-md-2"><input class="form-control inputDisabled"
                                     data-data-field="url"
-                                    value="{{url}}"></td>
+                                    value="{{url}}" disabled></td>
         <td class="col-md-2 tags"></td>
         <td class="col-md-2">
             <button data-doc-id="{{id}}"
