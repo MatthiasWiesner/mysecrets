@@ -47,10 +47,28 @@ Currently the website is hosted on [cloudControl]. Feel free to test and use the
 
 To get running the website locally, it's recommended to install it in a virtual machine using [VirtualBox] and [Vagrant]. You need only some steps
 
-  - Git clone the project
-  - in the new directory run the command `vagrant up` (this will need some time on the first time)
-  - change into the virtual machine by `vagrant ssh`
-  - run in the `/vagrant/` folder the command `python manager.py runserver`
+  - Git clone the project  
+  - in the new directory run the command `./run_locally.sh` (this will need some time on the first time)
+
+### Edit
+
+If you want to edit the files, you have to install [Bower] and [Grunt].
+
+On the first time:
+
+ - run the command: `npm install` to install the needed grunt modules.
+ - run the command: `bower install` to install the necessary packages.
+
+On every change of js or css file:
+
+ - run the command: `grunt` to concat and minify the css and js files.
+
+
+ Alternatively you can set the DEBUG environment variable to 'True' in the `run_locally.sh` script:
+ ~~~
+ ... export DEBUG=True; python /vagrant/manager.py runserver
+ ~~~
+ By setting this environment variable, the files are loaded separately.
 
 [CryptoJS]: https://code.google.com/p/crypto-js/
 [Triple DES]: http://en.wikipedia.org/wiki/Triple_DES
@@ -58,3 +76,5 @@ To get running the website locally, it's recommended to install it in a virtual 
 [cloudControl]: https://www.cloudcontrol.com/
 [VirtualBox]: https://www.virtualbox.org/
 [Vagrant]: https://www.vagrantup.com/
+[Grunt]: http://gruntjs.com/
+[Bower]: http://bower.io/

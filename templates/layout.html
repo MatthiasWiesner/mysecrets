@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Keep it secret, keep it safe</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% if config.DEBUG %}
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/bootstrap.spacelab.css')}}"
           type="text/css">
@@ -50,6 +51,13 @@
             src="{{ url_for('static', filename='bower_components/pagedown/Markdown.Converter.js')}}"></script>
     <script type="text/javascript"
             src="{{ url_for('static', filename='js/main.js')}}"></script>
+    {% else %}
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/combined.min.css')}}"
+          type="text/css">
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='js/combined.min.js')}}"></script>
+    {% endif %}
 </head>
 <body>
 <!-- Static navbar -->

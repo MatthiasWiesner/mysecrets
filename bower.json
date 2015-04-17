@@ -15,6 +15,7 @@
     "jQuery-Storage-API": "julien-maurel/jQuery-Storage-API#~1.7.3",
     "cryptojslib": "~3.1.2",
     "jquery-ui": "~1.11.3",
-    "bootbox": "~4.4.0"
+    "bootbox": "~4.4.0",
+    "mustache": "~2.0.0"
   }
 }
