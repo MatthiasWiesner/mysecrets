@@ -16,8 +16,8 @@ try:
     cred_file = open(os.environ.get('CRED_FILE', ''))
     creds = json.load(cred_file)
     MONGODB_SETTINGS = {
-        'db': creds['MONGOSOUP']['MONGOSOUP_URL'].split('/')[-1],
-        'host': creds['MONGOSOUP']['MONGOSOUP_URL']
+        'db': creds['MONGOLAB']['MONGOLAB_URI'].split('/')[-1],
+        'host': creds['MONGOLAB']['MONGOLAB_URI']
     }
 except IOError:
-  pass
+    pass
