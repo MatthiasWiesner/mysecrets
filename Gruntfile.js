@@ -17,7 +17,6 @@ module.exports = function(grunt) {
         concat: {
             css: {
                src: [
-                 'static/css/bootstrap.spacelab.css',
                  'static/bower_components/bootstrap/dist/css/bootstrap.css',
                  'static/bower_components/jquery-ui/themes/base/jquery-ui.css',
                  'static/bower_components/jquery-ui/themes/base/autocomplete.css',

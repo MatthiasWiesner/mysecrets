@@ -178,13 +178,13 @@
                     <td class="col-md-2">username</td>
                     <td class="col-md-2">password
                         <button type="button"
-                                class="btn btn-default btn-xs passwordVisible">
+                                class="btn btn-default btn-xs passwordVisible hidden-xs">
                                 <span class="glyphicon glyphicon-eye-open"
                                       aria-hidden="true"></span>
                         </button>
                     </td>
-                    <td class="col-md-2">url</td>
-                    <td class="col-md-2">tags</td>
+                    <td class="col-md-2 hidden-xs">url</td>
+                    <td class="col-md-2 hidden-xs">tags</td>
                     <td class="col-md-2">action</td>
                 </tr>
                 </thead>
@@ -204,11 +204,11 @@
                                     data-data-field="password"
                                     value="{{password}}" disabled>
         </td>
-        <td class="col-md-2"><input class="form-control inputDisabled"
+        <td class="col-md-2 hidden-xs"><input class="form-control inputDisabled"
                                     data-data-field="url"
                                     value="{{url}}" disabled></td>
-        <td class="col-md-2 tags"></td>
-        <td class="col-md-2">
+        <td class="col-md-2 tags hidden-xs"></td>
+        <td class="col-md-2" style="white-space: nowrap;">
             <button data-doc-id="{{id}}"
                     type="button"
                     class="btn btn-default btn-sm docUpdate"><span

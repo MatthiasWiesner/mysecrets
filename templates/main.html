@@ -11,13 +11,13 @@
         </div>
     </div>
     <div id="mySecrets">
-        <div class="nav">
-            <button id="btnCreateSecret" data-toggle="modal" data-target="#newModal" class="btn btn-primary">Enter A New Secret</button>
-            <button id="btnGeneratePassword" class="btn">Generate Password</button>
-            <button id="btnExportSecrets" class="btn">Export Secrets</button>
-            <button id="btnImportSecrets" class="btn">Import Secrets</button>
-            <button id="btnClearPassphrase" class="btn pull-right">Clear Passphrase</button>
-        </div>
+        <ul class="nav nav-pills">
+            <li role="presentation" id="btnCreateSecret" class="active" data-toggle="modal" data-target="#newModal"><a href="#">Enter A New Secret</a></li>
+            <li role="presentation" id="btnGeneratePassword" class="visible-md visible-lg"><a href="#">Generate Password</a></li>
+            <li role="presentation" id="btnExportSecrets" class="visible-lg"><a href="#">Export Secrets</a></li>
+            <li role="presentation" id="btnImportSecrets" class="visible-lg"><a href="#">Import Secrets</a></li>
+            <li role="presentation" id="btnClearPassphrase" class="visible-lg"><a href="#">Clear Passphrase</a></li>
+        </ul>
         <div id="mySecretEntries"></div>
     </div>
     <script type="text/javascript">var prefix = '{{prefix}}';</script>
