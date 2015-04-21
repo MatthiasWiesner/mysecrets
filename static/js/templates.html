@@ -14,6 +14,11 @@
                 </div>
                 <div class="modal-body">
                     <form id="createSecretForm">
+                        <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+                        <!-- currently chrome browser ignores autocomplete attribute -->
+                        <input style="display:none" type="text" name="fakeusernameremembered"/>
+                        <input style="display:none" type="password" name="fakepasswordremembered"/>
+
                         <div class="form-group">
                             <label for="newCategory">Category</label>
                             <input id="newCategory" type="text"
@@ -29,12 +34,24 @@
                                    placeholder="Enter username"/>
                         </div>
                         <div class="form-group">
-                            <label for="newPassword">Password</label>
-                            <button type="button"
-                                    class="btn btn-default btn-xs passwordVisible">
-                                <span class="glyphicon glyphicon-eye-open"
-                                      aria-hidden="true"></span>
-                            </button>
+                            <div class="pull-left">
+                                <label for="newPassword">Password</label>
+                                <button type="button"
+                                        class="btn btn-default btn-xs passwordVisible">
+                                    <span class="glyphicon glyphicon-eye-open"
+                                          aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="pull-right">
+                                <input class="pull-right genPasswdSC" type="checkbox" />
+                                <label class="pull-right" style="display:blocK; margin-left:10px; margin-right:3px;">special chars</label>
+                                <input class="form-control input-xs pull-right genPasswdLen" type="text" value="12"/>
+                                <label class="pull-right" style="display:blocK; margin-left:10px; margin-right:3px;">length</label>
+                                <button type="button"
+                                    class="btn btn-default btn-xs pull-right btnGenPasswd">
+                                    generate password
+                                </button>
+                            </div>
                             <input id="newPassword" type="password"
                                    class="form-control"
                                    data-data-field="password"
@@ -103,12 +120,24 @@
                                    autocomplete="off" />
                         </div>
                         <div class="form-group">
-                            <label for="detailsPassword">Password</label>
-                            <button type="button"
-                                    class="btn btn-default btn-xs passwordVisible">
-                                <span class="glyphicon glyphicon-eye-open"
-                                      aria-hidden="true"></span>
-                            </button>
+                            <div class="pull-left">
+                                <label for="detailsPassword">Password</label>
+                                <button type="button"
+                                        class="btn btn-default btn-xs passwordVisible">
+                                    <span class="glyphicon glyphicon-eye-open"
+                                          aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="pull-right">
+                                <input class="pull-right genPasswdSC" type="checkbox" />
+                                <label class="pull-right" style="display:blocK; margin-left:10px; margin-right:3px;">special chars</label>
+                                <input class="form-control input-xs pull-right genPasswdLen" type="text" value="12"/>
+                                <label class="pull-right" style="display:blocK; margin-left:10px; margin-right:3px;">length</label>
+                                <button type="button"
+                                    class="btn btn-default btn-xs pull-right btnGenPasswd">
+                                    generate password
+                                </button>
+                            </div>
                             <input id="detailsPassword" type="password"
                                    class="form-control"
                                    data-data-field="password"

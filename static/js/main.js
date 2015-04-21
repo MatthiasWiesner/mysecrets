@@ -236,7 +236,14 @@ function MySecrets(){
 
             // toggle dialog password visibility
             $('.passwordVisible', $('.modal')).on('click', function(){
-                $(this).siblings('input[data-data-field="password"]').toggleAttr("type", "text", "password");
+                $('input[data-data-field="password"]', $(this).closest('form')).toggleAttr("type", "text", "password");
+            });
+
+            $('.btnGenPasswd', $('.modal')).on('click', {genFunc: this.generatePassword}, function(event){
+                var len = $('input.genPasswdLen', $(this).parent()).val();
+                var sc = $('input.genPasswdSC', $(this).parent()).prop('checked');
+                var passwd = event.data.genFunc(len, sc);
+                $('input[data-data-field="password"]', $(this).closest('form')).val(passwd);
             });
 
             $("#createSecret").on('click', $.proxy(function(){
@@ -260,19 +267,6 @@ function MySecrets(){
                     $('textarea[data-data-field="freeText"]', $('#updateSecretForm')).val(),
                     $('textarea[data-data-field="tags"]', $('#updateSecretForm')).val()
                 );
-            }, this));
-
-            $('#btnGeneratePassword').on('click', $.proxy(function(){
-                var b = bootbox.dialog({
-                    title: 'Generate password',
-                    message: $(templates).filter('#tplGeneratePassword').html()
-                });
-                $('#contPasswordResults', b).hide();
-                $('#btnGeneratePassword', b).on('click', $.proxy(function(){
-                    var pw = this.generatePassword($('#inputPasswordLength').val(), $('#inputPasswordWithSymbols', b).prop('checked'));
-                    $('#passwordResult').val(pw);
-                    $('#contPasswordResults', b).show();
-                }, this));
             }, this));
 
             $('#btnImportSecrets').on('click', $.proxy(function(){
