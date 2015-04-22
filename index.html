@@ -1,3 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0022)http://127.0.0.1:5000/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Keep it secret, keep it safe</title>
+
+    <!-- TOGGLE COMMENT, TO DEBUG OR EDIT
+    <link rel="shortcut icon" href="./static/favicon.ico">
+    <link rel="stylesheet" href="./static/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="./static/css/jquery-ui.css" type="text/css">
+    <link rel="stylesheet" href="./static/css/autocomplete.css" type="text/css">
+    <link rel="stylesheet" href="./static/css/main.css" type="text/css">
+    <script type="text/javascript" src="./static/js/dropbox-datastores-1.2-latest.js"></script>
+    <script type="text/javascript" src="./static/js/jquery.js"></script>
+    <script type="text/javascript" src="./static/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="./static/js/jquery.simulate.js"></script>
+    <script type="text/javascript" src="./static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="./static/js/bootbox.js"></script>
+    <script type="text/javascript" src="./static/js/jquery.storageapi.js"></script>
+    <script type="text/javascript" src="./static/js/core.js"></script>
+    <script type="text/javascript" src="./static/js/enc-base64.js"></script>
+    <script type="text/javascript" src="./static/js/md5.js"></script>
+    <script type="text/javascript" src="./static/js/evpkdf.js"></script>
+    <script type="text/javascript" src="./static/js/cipher-core.js"></script>
+    <script type="text/javascript" src="./static/js/tripledes.js"></script>
+    <script type="text/javascript" src="./static/js/mustache.js"></script>
+    <script type="text/javascript" src="./static/js/main.js"></script>
+    -->
+
+    <!-- TOGGLE COMMENT, TO DEBUG OR EDIT
+    -->
+    <link rel="stylesheet" href="./static/css/combined.min.css" type="text/css">
+    <script type="text/javascript" src="./static/js/combined.min.js"></script>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="./mysecrets_drops_files/mysecrets_drops.html">MySecrets</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse in" aria-expanded="true">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/MatthiasWiesner/mysecrets/tree/dropbox" target="_blank">Project on GitHub</a></li>
+                <li><a href="./mysecrets_drops_files/mysecrets_drops.html">Secret</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<div id="content" class="container">
+    <div id="containerMySecret" class="col-md-9 containerBorder">
+        <div id="setPassphrase">
+            <div class="form-group">
+                <label for="passphrase">Passphrase</label>
+                <input type="text" class="form-control" id="passphrase" placeholder="Enter passphrase">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+        <div id="mySecrets">
+            <ul class="nav nav-pills">
+                <li role="presentation" id="btnCreateSecret" class="active" data-toggle="modal" data-target="#newModal"><a href="#">Enter A New Secret</a></li>
+                <li role="presentation" id="btnExportSecrets" class="visible-md visible-lg"><a href="#">Export Secrets</a></li>
+                <li role="presentation" id="btnImportSecrets" class="visible-md visible-lg"><a href="#">Import Secrets</a></li>
+                <li role="presentation" id="btnClearPassphrase" class="visible-md visible-lg pull-right"><a href="#">Clear Passphrase</a></li>
+            </ul>
+            <div id="mySecretEntries"></div>
+        </div>
+        <script type="text/javascript" src="credentials.js"></script>
+    </div>
+</div>
+
+<!-- TEMPLATES -->
+
 <script type="text/template" id="tplNewModal">
     <!-- Modal NewSecret -->
     <div class="modal fade" id="newModal" tabindex="-1" role="dialog"
@@ -106,6 +188,8 @@
                 <div class="modal-body">
                     <form id="updateSecretForm" autocomplete="off">
                         <input type="hidden" data-data-field="id" value=""/>
+                        <input type="hidden" data-data-field="category" value=""/>
+
                         <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
                         <!-- currently chrome browser ignores autocomplete attribute -->
                         <input style="display:none" type="text" name="fakeusernameremembered"/>
@@ -213,7 +297,7 @@
                         </button>
                     </td>
                     <td class="col-md-2 hidden-xs">url</td>
-                    <td class="col-md-2 hidden-xs">tags</td>
+                    <td class="col-md-2">tags</td>
                     <td class="col-md-2">action</td>
                 </tr>
                 </thead>
@@ -236,7 +320,7 @@
         <td class="col-md-2 hidden-xs"><input class="form-control inputDisabled"
                                     data-data-field="url"
                                     value="{{url}}" disabled></td>
-        <td class="col-md-2 tags hidden-xs"></td>
+        <td class="col-md-2 tags"></td>
         <td class="col-md-2" style="white-space: nowrap;">
             <button data-doc-id="{{id}}"
                     type="button"
@@ -392,3 +476,4 @@
         <td class="col-md-6">{{{content}}}</td>
     </tr>
 </script>
+</body></html>
