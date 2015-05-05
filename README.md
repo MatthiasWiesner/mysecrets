@@ -1,7 +1,9 @@
 # MySecrets
 
-The website *mysecrets* is supposed to be a distributed storage for account 
-credentials. The data are client side [encrypted](#encryption) and stored in the 
+The website *mysecrets* is supposed to be a distributed storage for a single users account credentials. 
+There is a git branch for [GitHub: multiple users], which isn't under development.
+
+The data are client side [encrypted](#encryption) and stored in the 
 dropbox datastore. The data format is:
 
 ~~~json
@@ -36,7 +38,7 @@ setup and stored in the browsers local storage.
 You can run this website locally. Download the zip version from github by clicking or:
 
 ~~~
-wget https://github.com/MatthiasWiesner/mysecrets/archive/dropbox.zip
+wget https://github.com/MatthiasWiesner/mysecrets/archive/master.zip
 ~~~
 
 Now you only need to open the `index.html` file with the browser.
@@ -71,6 +73,29 @@ var credentials = {
 Since you already have a dropbox account, you can store the website on dropbox as well.
 Move the folder (including `credentials.js`) to the dropbox's public folder. Get the public link of the `index.html` file (right-click on the file in the dropbox's web ui) and bookmark it.
 
+## Editing
+
+If you want to edit the website, you want to un/comment the html blocks in `index.html`: line 9-28 and line 33-34.
+
+The files you want to edit are `static/js/main.js`, `static/css/main.css` and the `index.html` (especially the templates at the bottom).
+
+The compression of all js and css files is done by [Grunt]. So you have to install [Grunt], if not already installed.
+
+Install all needed grunt modules (only once at the first run) by:
+~~~
+$ npm install
+~~~
+
+After your changes in js and css files create `static/js/combined.min.js` and `static/css/combined.min.css` by:
+~~~
+$ grunt
+~~~
+in the website folder.
+
+You have to re-un/comment the html blocks of course to use the combined js and css files.
+
+[GitHub: multiple users]: https://github.com/MatthiasWiesner/mysecrets/tree/multiuser
 [CryptoJS]: https://code.google.com/p/crypto-js/
 [Triple DES]: http://en.wikipedia.org/wiki/Triple_DES
 [Dropbox Developer - App Console]: https://www.dropbox.com/developers/apps
+[Grunt]: http://gruntjs.com/
