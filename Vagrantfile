@@ -8,13 +8,22 @@ $provision = <<SCRIPT
 set -eu
 
 apt-get update
-apt-get install -y -q python-dev python-pip mongodb-server
-
-# memmove hack
-# https://bugs.launchpad.net/ubuntu/+source/python2.7/+bug/1238244
-echo '#define HAVE_MEMMOVE 1' >>/usr/include/python2.7/pyconfig.h
+apt-get install -y -q python-dev \
+                      python-pip \
+                      mongodb-server \
+                      npm \
+                      nodejs-legacy \
+                      git
+npm install -g bower
+npm install -g grunt-cli
 
 cd /vagrant
+# load javascript/css dependencies
+bower install --allow-root --config.interactive=false
+npm install
+grunt
+
+# load python dependencies
 pip install -r requirements.txt
 SCRIPT
 
