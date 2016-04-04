@@ -10,8 +10,31 @@ function EnDeCrypt(passphrase){
     };
 }
 
-function DropboxBackend(){
-    this.client;
+function BackendEntry(){
+    this.init = function(elem){
+        if (elem != undefined){
+            this.category = elem.category;
+            this.data = elem.data;
+            this.tags = elem.tags,
+            this.date = elem.date;
+        } else {
+            this.category = "New";
+            this.data = "";
+            this.tags = "",
+            this.date = String(new Date());
+        }
+    };
+
+    this.get = function(_key){
+        return this[_key];
+    };
+
+    this.getId = function(){
+        return this.id;
+    };
+}
+
+function Backend(){
     this.datastore;
 
     this.generateUUID = function() {
@@ -27,63 +50,67 @@ function DropboxBackend(){
         // Insert '-'s
         s[8] = s[13] = s[18] = s[23] = '-';
         return s.join('');
-    }
+    };
 
-    this.init = function(APP_KEY, APP_TOKEN, callback){
-        var client = new Dropbox.Client({key: APP_KEY, token: APP_TOKEN});
-        client.authenticate({interactive: false}, $.proxy(function (error) {
-            if (error) {
-                alert('Authentication error: ' + error);
-            }
-            if (client.isAuthenticated()) {
-                this.client = client;
+    this._getSecrets = function(){
+        return this.datastore.get('secrets').map(function(el){
+            var elem = new BackendEntry();
+            elem.init(el);
+            return elem;
+        });
+    };
 
-                var datastoreManager = this.client.getDatastoreManager();
-                datastoreManager.openDefaultDatastore($.proxy(function (error, datastore) {
-                    if (error) {
-                        alert('Error opening default datastore: ' + error);
-                    }
-                    this.datastore = datastore;
-                    callback();
-                }, this));
-            }
-        }, this));
+    this.init = function(_app_key, _app_token, callback){
+        this.datastore = $.localStorage;
+        if (this.datastore.get('secrets') == undefined){
+            this.datastore.set('secrets', new Array());
+        }
+        callback();
     };
 
     this.getSecrets = function(callback){
-        var secretsTable = this.datastore.getTable('secrets');
-        var result = secretsTable.query();
-        callback(result);
+        secretsTable = this._getSecrets();
+        console.log(secretsTable);
+        callback(secretsTable);
     };
 
     this.saveSecret = function(secretData, callback){
-        var secretsTable = this.datastore.getTable('secrets');
-        var defaultValues = {
-          "category": "New",
-          "data": "",
-          "tags": "",
-          "date": String(new Date())
-        }
+        var secretsTable = this._getSecrets();
+        var defaultSecret = new BackendEntry();
 
         var recordId = secretData.id || this.generateUUID();
-        var secret = secretsTable.getOrInsert(recordId, defaultValues);
 
-        secret.update({
-          "category": secretData.category,
-          "data": secretData.data,
-          "tags": secretData.tags,
-          "date": String(new Date())
-        });
+        var secret = secretsTable.filter(function(el){
+            return el.id == recordId;
+        })[0];
+
+        if(secret == undefined){
+            secret = new BackendEntry();
+            secret.init();
+            secret.id = recordId;
+            secretsTable.push(secret);
+        }
+
+        secret.category = secretData.category;
+        secret.data = secretData.data;
+        secret.tags = secretData.tags;
+        secret.date = String(new Date());
+
+        this.datastore.set('secrets', secretsTable);
+
         callback();
     };
 
     this.deleteSecret = function(recordId, callback){
-        var secretsTable = this.datastore.getTable('secrets');
-        var s = secretsTable.get(recordId)
-        if (s) {
-            s.deleteRecord();
+        var secretsTable = this.datastore.get('secrets');
+        var idx = secretsTable.findIndex(function(el){
+            return el.id == recordId;
+        })
+        if (idx >= 0) {
+            secretsTable.splice(idx, 1);
         }
-        callback(); 
+        this.datastore.set('secrets', secretsTable);
+        callback();
     };
 }
 
@@ -362,7 +389,7 @@ function MySecrets(){
                 return false;
             }
             $('#btnSaveImports', b).on('click', $.proxy(this.importSecrets, this, data));
-        }, this));            
+        }, this));
 
         $('#btnExportSecrets').on('click', $.proxy(this.exportSecrets, this));
 
@@ -378,8 +405,7 @@ function startMySecrets(passphrase, backend){
 function initMySecrets(credentials){
     var passphraseName = 'passphrase';
     var passphrase = $.localStorage.get(passphraseName);
-    var backend = new DropboxBackend();
-
+    var backend = new Backend();
         if (passphrase == '' || passphrase == null) {
         $('#setPassphrase').show();
         $('#setPassphrase button').click(function(){
