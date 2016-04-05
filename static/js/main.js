@@ -70,7 +70,7 @@ function MySecrets(){
                 categories[doc.get('category')].push(doc);
             }, this));
 
-            $('input[data-data-field="category"]', this.newModal).autocomplete({
+            $('input[data-data-field="category"]', $('#createSecretForm')).autocomplete({
                 source: $.map(categories, function(element,index) {return index})
             });
 
@@ -321,7 +321,17 @@ function startMySecrets(passphrase, backend){
 function initMySecrets(credentials){
     var passphraseName = 'passphrase';
     var passphrase = $.localStorage.get(passphraseName);
-    var backend = new Backend();
+
+    var backends = {
+        local: LocalBackend,
+        default: DropboxBackend
+    };
+
+    if ($.getUrlVar('be') != undefined && backends[$.getUrlVar('be')] != undefined) {
+        var backend = new backends[$.getUrlVar('be')]();
+    } else {
+        var backend = new backends.default();
+    }
 
     if (passphrase == '' || passphrase == null) {
         $('#setPassphrase').show();
@@ -358,6 +368,23 @@ $.fn.toggleAttr = function(attr, attr1, attr2) {
         }
     });
 };
+
+$.extend({
+  getUrlVars: function(){
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+      hash = hashes[i].split('=');
+      vars.push(hash[0]);
+      vars[hash[0]] = hash[1];
+    }
+    return vars;
+  },
+  getUrlVar: function(name){
+    return $.getUrlVars()[name];
+  }
+});
 
 $(document).ready(function(){
     if (typeof credentials !== 'undefined') {

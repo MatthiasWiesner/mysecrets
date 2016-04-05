@@ -1,5 +1,5 @@
 
-function Backend(){
+function DropboxBackend(){
     this.client;
     this.datastore;
 

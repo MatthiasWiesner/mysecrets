@@ -24,7 +24,7 @@ function BackendEntry(){
     };
 }
 
-function Backend(){
+function LocalBackend(){
     this.datastore;
 
     this.generateUUID = function() {
