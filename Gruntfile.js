@@ -28,6 +28,7 @@ module.exports = function(grunt) {
                 'static/js/cipher-core.js',
                 'static/js/tripledes.js',
                 'static/js/mustache.js',
+                'static/js/dropboxbackend.js',
                 'static/js/main.js',
                 ],
                 dest : 'static/js/combined.js'
