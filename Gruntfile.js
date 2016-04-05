@@ -26,9 +26,11 @@ module.exports = function(grunt) {
                 'static/js/md5.js',
                 'static/js/evpkdf.js',
                 'static/js/cipher-core.js',
-                'static/js/tripledes.js',
+                'static/js/aes.js',
+                'static/js/pbkdf2.js',
                 'static/js/mustache.js',
                 'static/js/main.js',
+                'static/js/localbackend.js',
                 ],
                 dest : 'static/js/combined.js'
             }
