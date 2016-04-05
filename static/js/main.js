@@ -2,14 +2,31 @@ function EnDeCrypt(passphrase){
     this.passphrase = passphrase;
 
     this.encrypt = function(message){
-        return CryptoJS.TripleDES.encrypt(message, passphrase).toString();
+        var salt = CryptoJS.lib.WordArray.random(16);
+        var salt_hex = CryptoJS.enc.Hex.stringify(salt);
+
+        var iv = CryptoJS.lib.WordArray.random(16);
+        var iv_hex = CryptoJS.enc.Hex.stringify(iv);
+
+        var key = CryptoJS.PBKDF2(this.passphrase, salt, {keySize: 256/32, iterations: 1000 });
+        var key_hex = CryptoJS.enc.Hex.stringify(key);
+
+        var encrypted = CryptoJS.AES.encrypt(message, key, {mode: CryptoJS.mode.CBC, iv: iv });
+
+        return encrypted.toString() + ':' + key_hex + ':' + iv_hex;
     };
 
-    this.decrypt = function(encrypted){
-        return CryptoJS.TripleDES.decrypt(encrypted, passphrase).toString(CryptoJS.enc.Utf8);
+    this.decrypt = function(encrypted_string){
+        var parts = encrypted_string.split(':');
+
+        var decrypted = CryptoJS.AES.decrypt(
+            parts[0],
+            CryptoJS.enc.Hex.parse(parts[1]),
+            { iv: CryptoJS.enc.Hex.parse(parts[2]) });
+
+        return decrypted.toString(CryptoJS.enc.Utf8);
     };
 }
-
 
 function MySecrets(){
     this.backend;
@@ -278,13 +295,16 @@ function MySecrets(){
                 title: 'Import Secrets',
                 message: $('#tplImportSecrets').html()
             });
-            try {
-                var data = JSON.parse($('#content', b).val());
-            } catch (err) {
-                alert('The data could not be parsed. Please insert valid json');
-                return false;
-            }
-            $('#btnSaveImports', b).on('click', $.proxy(this.importSecrets, this, data));
+
+            $('#btnSaveImports', b).on('click', $.proxy(function(){
+                try {
+                    var data = JSON.parse($('#content', b).val());
+                } catch (err) {
+                    alert('The data could not be parsed. Please insert valid json');
+                    return false;
+                }
+                this.importSecrets(data);
+            }, this));
         }, this));
 
         $('#btnExportSecrets').on('click', $.proxy(this.exportSecrets, this));
@@ -303,7 +323,7 @@ function initMySecrets(credentials){
     var passphrase = $.localStorage.get(passphraseName);
     var backend = new Backend();
 
-        if (passphrase == '' || passphrase == null) {
+    if (passphrase == '' || passphrase == null) {
         $('#setPassphrase').show();
         $('#setPassphrase button').click(function(){
             passphrase = $("#setPassphrase input").val();

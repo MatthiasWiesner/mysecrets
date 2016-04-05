@@ -26,8 +26,8 @@ displayed ordered by the `category`.
 ## Encryption
 
 The encryption is done by using the [CryptoJS] library. The data are encrypted 
-by [Triple DES] algorithm. Triple DES applies DES three times to each block to 
-increase the key size. The algorithm is believed to be secure in this form.
+by the AES-CBC-256 algorithm. The key derivation uses PBKDF2. 
+This methods are similar to "1passwords" encryption.
 
 The encryption uses a passphrase string, which is requested during the initial 
 setup and stored in the browsers local storage.
@@ -96,6 +96,5 @@ You have to re-un/comment the html blocks of course to use the combined js and c
 
 [GitHub: multiple users]: https://github.com/MatthiasWiesner/mysecrets/tree/multiuser
 [CryptoJS]: https://code.google.com/p/crypto-js/
-[Triple DES]: http://en.wikipedia.org/wiki/Triple_DES
 [Dropbox Developer - App Console]: https://www.dropbox.com/developers/apps
 [Grunt]: http://gruntjs.com/
