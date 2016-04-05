@@ -4,7 +4,7 @@ The website *mysecrets* is supposed to be a distributed storage for a single use
 There is a git branch for [GitHub: multiple users], which isn't under development.
 
 The data are client side [encrypted](#encryption) and stored in the 
-dropbox datastore. The data format is:
+dropbox datastore or alternatively in the browsers local storage. The data format is:
 
 ~~~json
 {
@@ -32,7 +32,6 @@ This methods are similar to "1passwords" encryption.
 The encryption uses a passphrase string, which is requested during the initial 
 setup and stored in the browsers local storage.
 
-
 ## Setup
 
 You can run this website locally. Download the zip version from github by clicking or:
@@ -44,8 +43,13 @@ wget https://github.com/MatthiasWiesner/mysecrets/archive/master.zip
 Now you only need to open the `index.html` file with the browser.
 Alternatively, you can store the website on a storage of your choice (dropbox, AWS, google cloud).
 
+### Local Storage
 
-### Configuration
+To store your secrets locally, you only have to open the `index.html` file with the GET parameter be=local:
+
+`file:///path/to/index.html?be=local`
+
+### Dropbox Configuration
 
 To store your secrets on dropbox, you need to do some configuration steps.
 
