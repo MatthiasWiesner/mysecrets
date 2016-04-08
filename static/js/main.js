@@ -9,20 +9,24 @@ function EnDeCrypt(passphrase){
         var iv_hex = CryptoJS.enc.Hex.stringify(iv);
 
         var key = CryptoJS.PBKDF2(this.passphrase, salt, {keySize: 256/32, iterations: 1000 });
-        var key_hex = CryptoJS.enc.Hex.stringify(key);
-
         var encrypted = CryptoJS.AES.encrypt(message, key, {mode: CryptoJS.mode.CBC, iv: iv });
 
-        return encrypted.toString() + ':' + key_hex + ':' + iv_hex;
+        var key_hex = CryptoJS.enc.Hex.stringify(key);
+        var key_hex_encrypted = CryptoJS.AES.encrypt(key_hex, this.passphrase, {mode: CryptoJS.mode.CBC, iv: iv });
+
+        return encrypted.toString() + ':' + key_hex_encrypted + ':' + iv_hex;
     };
 
     this.decrypt = function(encrypted_string){
         var parts = encrypted_string.split(':');
+        var message = parts[0];
+        var key_hex_encrypted = parts[1];
+        var iv = CryptoJS.enc.Hex.parse(parts[2])
+
+        var key_hex = CryptoJS.AES.decrypt(key_hex_encrypted, this.passphrase).toString(CryptoJS.enc.Utf8);
 
         var decrypted = CryptoJS.AES.decrypt(
-            parts[0],
-            CryptoJS.enc.Hex.parse(parts[1]),
-            { iv: CryptoJS.enc.Hex.parse(parts[2]) });
+            message, CryptoJS.enc.Hex.parse(key_hex), { iv: iv });
 
         return decrypted.toString(CryptoJS.enc.Utf8);
     };
@@ -58,9 +62,11 @@ function MySecrets(){
 
             categories = {};
             $.each(data, $.proxy(function(i, doc){
+                console.log(doc.get('data'));
                 try {
                     this.tripledes.decrypt(doc.get('data'));
                 } catch (err) {
+                    console.log('The data could not be decrypted. Please enter a valid passphrase.');
                     alert('The data could not be decrypted. Please enter a valid passphrase.');
                     return false;
                 }
