@@ -34,7 +34,7 @@ function EnDeCrypt(passphrase){
 
 function MySecrets(){
     this.backend;
-    this.tripledes;
+    this.endecrypt;
     this.newModal;
     this.detailModal;
 
@@ -62,18 +62,17 @@ function MySecrets(){
 
             categories = {};
             $.each(data, $.proxy(function(i, doc){
-                console.log(doc.get('data'));
+                var decrypted_data;
                 try {
-                    this.tripledes.decrypt(doc.get('data'));
+                    decrypted_data = this.endecrypt.decrypt(doc.get('data'));
                 } catch (err) {
-                    console.log('The data could not be decrypted. Please enter a valid passphrase.');
                     alert('The data could not be decrypted. Please enter a valid passphrase.');
                     return false;
                 }
                 if (!(doc.get('category') in categories)){
                     categories[doc.get('category')] = [];
                 }
-                categories[doc.get('category')].push(doc);
+                categories[doc.get('category')].push(new Array(doc, decrypted_data));
             }, this));
 
             $('input[data-data-field="category"]', $('#createSecretForm')).autocomplete({
@@ -90,12 +89,19 @@ function MySecrets(){
                 }));
                 var $categoryBody = $(Mustache.render($tplCategoryBody.html(), {index: index}));
 
-                $.each(docList, $.proxy(function(i, document){
-                    var data = JSON.parse(this.tripledes.decrypt(document.get('data')));
+                $.each(docList, $.proxy(function(i, document_data){
+                    var doc = document_data[0];
+                    var data = {};
 
-                    data.id = document.getId();
-                    data.category = document.get('category');
-                    data.tags = document.get('tags');
+                    try {
+                        data = JSON.parse(document_data[1]);
+                    } catch (err){
+                        console.log(err);
+                    }
+
+                    data.id = doc.getId();
+                    data.category = doc.get('category');
+                    data.tags = doc.get('tags');
 
                     var $row = $(Mustache.render($tplSecretEntry.html(), data));
 
@@ -112,11 +118,12 @@ function MySecrets(){
                     $('button.docRemove', $row).on('click', $.proxy(function(){
                         bootbox.confirm("Are you sure?", $.proxy(function(result) {
                             if(result){
-                                this.backend.deleteSecret(document.getId(), $.proxy(this.getSecrets, this));
+                                this.backend.deleteSecret(doc.getId(), $.proxy(this.getSecrets, this));
                             }
                         }, this));
                     }, this));
                     $('tbody', $categoryBody).append($row);
+
                 }, this));
 
                 $(".passwordVisible", $categoryBody).on('click', function(){
@@ -139,7 +146,7 @@ function MySecrets(){
             url: d.url,
             freeText: d.freeText
         });
-        encrypted = this.tripledes.encrypt(data);
+        encrypted = this.endecrypt.encrypt(data);
         pdata = {
             data: encrypted,
             tags: d.tags
@@ -191,7 +198,7 @@ function MySecrets(){
             $.each(data, $.proxy(function(i, record){
                 try {
                     var doc = {};
-                    var d = JSON.parse(this.tripledes.decrypt(record.get('data')));
+                    var d = JSON.parse(this.endecrypt.decrypt(record.get('data')));
                     doc.username = d.username;
                     doc.password = d.password;
                     doc.url = d.url;
@@ -251,7 +258,7 @@ function MySecrets(){
     };
 
     this.start = function(passphrase, backend){
-        this.tripledes = new EnDeCrypt(passphrase);
+        this.endecrypt = new EnDeCrypt(passphrase);
         this.backend = backend;
 
         this.newModal = $('#tplNewModal').html();
