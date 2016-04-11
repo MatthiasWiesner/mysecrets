@@ -29,8 +29,7 @@ The encryption is done by using the [CryptoJS] library. The data are encrypted
 by the AES-CBC-256 algorithm. The key derivation uses PBKDF2. 
 This methods are similar to "1passwords" encryption.
 
-The encryption uses a passphrase string, which is requested during the initial 
-setup and stored in the browsers local storage.
+The encryption uses a passphrase string, which is requested on every browser request and optionally stored in the browsers local storage (but *not recommended*).
 
 ## Setup
 

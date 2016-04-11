@@ -357,13 +357,13 @@ function initMySecrets(){
     };
 
     if ($.getUrlVar('be') != undefined && backends[$.getUrlVar('be')] != undefined) {
-        var backend = backends[$.getUrlVar('be')]
+        var backendDef = backends[$.getUrlVar('be')]
     } else {
-        var clazz = backends.default;
+        var backendDef = backends.default;
     }
 
-    var clazz = backend['clazz'];
-    var credentialsFile = backend['credentialsFile'];
+    var clazz = backendDef['clazz'];
+    var credentialsFile = backendDef['credentialsFile'];
     var backend = new clazz();
 
     if (passphrase == '' || passphrase == null) {
