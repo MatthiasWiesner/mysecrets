@@ -6,27 +6,22 @@ function EnDeCrypt(passphrase){
         var salt_hex = CryptoJS.enc.Hex.stringify(salt);
 
         var iv = CryptoJS.lib.WordArray.random(16);
-        var iv_hex = CryptoJS.enc.Hex.stringify(iv);
-
         var key = CryptoJS.PBKDF2(this.passphrase, salt, {keySize: 256/32, iterations: 1000 });
         var encrypted = CryptoJS.AES.encrypt(message, key, {mode: CryptoJS.mode.CBC, iv: iv });
 
-        var key_hex = CryptoJS.enc.Hex.stringify(key);
-        var key_hex_encrypted = CryptoJS.AES.encrypt(key_hex, this.passphrase, {mode: CryptoJS.mode.CBC, iv: iv });
+        var key_encrypted = CryptoJS.AES.encrypt(key.toString(), this.passphrase, {mode: CryptoJS.mode.CBC, iv: iv });
 
-        return encrypted.toString() + ':' + key_hex_encrypted + ':' + iv_hex;
+        return encrypted.toString() + ':' + key_encrypted.toString() + ':' + iv.toString();
     };
 
     this.decrypt = function(encrypted_string){
         var parts = encrypted_string.split(':');
         var message = parts[0];
-        var key_hex_encrypted = parts[1];
+        var key_encrypted = parts[1];
         var iv = CryptoJS.enc.Hex.parse(parts[2])
 
-        var key_hex = CryptoJS.AES.decrypt(key_hex_encrypted, this.passphrase).toString(CryptoJS.enc.Utf8);
-
-        var decrypted = CryptoJS.AES.decrypt(
-            message, CryptoJS.enc.Hex.parse(key_hex), { iv: iv });
+        var key_string = CryptoJS.AES.decrypt(key_encrypted, this.passphrase).toString(CryptoJS.enc.Utf8);
+        var decrypted = CryptoJS.AES.decrypt(message, CryptoJS.enc.Hex.parse(key_string), {iv: iv});
 
         return decrypted.toString(CryptoJS.enc.Utf8);
     };
@@ -66,9 +61,16 @@ function MySecrets(){
                 try {
                     decrypted_data = this.endecrypt.decrypt(doc.get('data'));
                 } catch (err) {
-                    alert('The data could not be decrypted. Please enter a valid passphrase.');
-                    return false;
+                    alert('Some could not be decrypted. Try another passphrase.');
+                    return true;
                 }
+                // altough with a wrong passphrase the decypt function returns an empty string
+                // instead of raise an error
+                if (!decrypted_data) {
+                    alert('Some could not be decrypted. Try another passphrase.');
+                    return true;
+                }
+
                 if (!(doc.get('category') in categories)){
                     categories[doc.get('category')] = [];
                 }
@@ -349,8 +351,10 @@ function initMySecrets(credentials){
     if (passphrase == '' || passphrase == null) {
         $('#setPassphrase').show();
         $('#setPassphrase button').click(function(){
-            passphrase = $("#setPassphrase input").val();
-            $.localStorage.set(passphraseName, passphrase);
+            passphrase = $("#passphrase").val();
+            if ($("#store_passphrase").is(":checked")) {
+                $.localStorage.set(passphraseName, passphrase);
+            }
             $('#setPassphrase').hide();
             backend.init(credentials.key, credentials.token, function(){
                 startMySecrets(passphrase, backend);
@@ -395,7 +399,11 @@ $.extend({
     return vars;
   },
   getUrlVar: function(name){
-    return $.getUrlVars()[name];
+    var urlvar = $.getUrlVars()[name];
+    if (urlvar) {
+        return $.getUrlVars()[name].replace('#', '');
+    }
+    return '';
   }
 });
 

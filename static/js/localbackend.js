@@ -1,8 +1,11 @@
 
 
 function BackendEntry(){
+    this.id;
+
     this.init = function(elem){
         if (elem != undefined){
+            this.id = elem.id;
             this.category = elem.category;
             this.data = elem.data;
             this.tags = elem.tags,
