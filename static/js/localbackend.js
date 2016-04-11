@@ -53,7 +53,7 @@ function LocalBackend(){
         });
     };
 
-    this.init = function(_app_key, _app_token, callback){
+    this.init = function(_creds, callback){
         this.datastore = $.localStorage;
         if (this.datastore.get('secrets') == undefined){
             this.datastore.set('secrets', new Array());

@@ -55,7 +55,7 @@ function MySecrets(){
             var $tplSecretEntry = $('#tplSecretEntry');
             var $tplTagcontainer = $('#tplTagcontainer');
 
-            categories = {};
+            var categories = {};
             $.each(data, $.proxy(function(i, doc){
                 var decrypted_data;
                 try {
@@ -196,7 +196,7 @@ function MySecrets(){
 
     this.exportSecrets = function(){
         this.backend.getSecrets($.proxy(function(data){
-            documents = [];
+            var documents = [];
             $.each(data, $.proxy(function(i, record){
                 try {
                     var doc = {};
@@ -333,20 +333,38 @@ function startMySecrets(passphrase, backend){
     new MySecrets().start(passphrase, backend);
 }
 
-function initMySecrets(credentials){
+function initBackend(backend, passphrase, credentialsFile){
+    if (credentialsFile) {
+        $.getScript(credentialsFile).done(function(){
+            backend.init(credentials, function(){
+                startMySecrets(passphrase, backend);
+            });
+        });
+    } else {
+        backend.init(undefined, function(){
+            startMySecrets(passphrase, backend);
+        });
+    }
+}
+
+function initMySecrets(){
     var passphraseName = 'passphrase';
     var passphrase = $.localStorage.get(passphraseName);
 
     var backends = {
-        local: LocalBackend,
-        default: DropboxBackend
+        local: {clazz: LocalBackend, credentialsFile: undefined},
+        default: {clazz: DropboxBackend, credentialsFile: './credentials.js'}
     };
 
     if ($.getUrlVar('be') != undefined && backends[$.getUrlVar('be')] != undefined) {
-        var backend = new backends[$.getUrlVar('be')]();
+        var backend = backends[$.getUrlVar('be')]
     } else {
-        var backend = new backends.default();
+        var clazz = backends.default;
     }
+
+    var clazz = backend['clazz'];
+    var credentialsFile = backend['credentialsFile'];
+    var backend = new clazz();
 
     if (passphrase == '' || passphrase == null) {
         $('#setPassphrase').show();
@@ -356,14 +374,10 @@ function initMySecrets(credentials){
                 $.localStorage.set(passphraseName, passphrase);
             }
             $('#setPassphrase').hide();
-            backend.init(credentials.key, credentials.token, function(){
-                startMySecrets(passphrase, backend);
-            });
+            initBackend(backend, passphrase, credentialsFile);
         });
     } else {
-        backend.init(credentials.key, credentials.token, function(){
-            startMySecrets(passphrase, backend);
-        });
+        initBackend(backend, passphrase, credentialsFile);
     }
 
     $('#btnClearPassphrase').on('click', function(){
@@ -408,7 +422,5 @@ $.extend({
 });
 
 $(document).ready(function(){
-    if (typeof credentials !== 'undefined') {
-        initMySecrets(credentials);
-    }
+    initMySecrets();
 });

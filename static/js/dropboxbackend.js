@@ -18,8 +18,8 @@ function DropboxBackend(){
         return s.join('');
     }
 
-    this.init = function(APP_KEY, APP_TOKEN, callback){
-        var client = new Dropbox.Client({key: APP_KEY, token: APP_TOKEN});
+    this.init = function(creds, callback){
+        var client = new Dropbox.Client({key: creds.key, token: creds.token});
         client.authenticate({interactive: false}, $.proxy(function (error) {
             if (error) {
                 alert('Authentication error: ' + error);
