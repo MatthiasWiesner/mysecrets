@@ -29,6 +29,7 @@ module.exports = function(grunt) {
                 'static/js/aes.js',
                 'static/js/pbkdf2.js',
                 'static/js/mustache.js',
+                'static/js/clipboard.js',
                 'static/js/localbackend.js',
                 'static/js/dropboxbackend.js',
                 'static/js/main.js',

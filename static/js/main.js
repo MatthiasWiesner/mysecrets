@@ -107,6 +107,10 @@ function MySecrets(){
 
                     var $row = $(Mustache.render($tplSecretEntry.html(), data));
 
+                    $(".passwordVisible", $row).on('click', function(){
+                        $('input[data-data-field="password"]', $row).toggleAttr("type", "text", "password");
+                    });
+
                     var tags = data.tags.split(/[\s,;]+/g).filter(Boolean);
                     if (tags.length){
                         $.each(tags, function(i, tag){
@@ -128,13 +132,16 @@ function MySecrets(){
 
                 }, this));
 
-                $(".passwordVisible", $categoryBody).on('click', function(){
-                    $('input[data-data-field="password"]', $categoryBody).toggleAttr("type", "text", "password");
-                });
-
                 $category.append($categoryBody);
                 $($accordion).append($category);
                 index += 1;
+
+                new Clipboard('.btn-passwd', {
+                    text: function(trigger){
+                        return $(trigger.getAttribute('data-clipboard-target')).val();
+                    }
+                });
+
             }, this));
             $mySecretEntries.append($accordion);
             $('.collapse').collapse();
@@ -368,7 +375,11 @@ function initMySecrets(){
 
     if (passphrase == '' || passphrase == null) {
         $('#setPassphrase').show();
-        $('#setPassphrase button').click(function(){
+        // toggle passphrase visibility
+        $('.passwordVisible', $('#setPassphrase')).on('click', function(){
+            $('#passphrase').toggleAttr("type", "text", "password");
+        });
+        $('#setPassphrase button.submit').click(function(){
             passphrase = $("#passphrase").val();
             if ($("#store_passphrase").is(":checked")) {
                 $.localStorage.set(passphraseName, passphrase);
