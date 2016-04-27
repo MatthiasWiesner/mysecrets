@@ -1,8 +1,10 @@
 *.pyc
 .vagrant
-static/.DS_Store
-static/bower_components
-static/js/combined.js
-static/css/combined.css
+.DS_Store
+bower_components
+public/js/combined.js
+public/css/combined.css
 node_modules
 credentials.js
+public/js/combined.min.js
+public/css/combined.min.css
