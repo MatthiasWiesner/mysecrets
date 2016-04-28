@@ -6,5 +6,3 @@ public/js/combined.js
 public/css/combined.css
 node_modules
 credentials.js
-public/js/combined.min.js
-public/css/combined.min.css
