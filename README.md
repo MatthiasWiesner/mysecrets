@@ -3,8 +3,7 @@
 The website *mysecrets* is supposed to be a distributed storage for a single users account credentials. 
 There is a git branch for [GitHub: multiple users], which isn't under development.
 
-The data are client side [encrypted](#encryption) and stored in the 
-dropbox datastore or alternatively in the browsers local storage. The data format is:
+The data are client side [encrypted](#encryption) and stored in a remote datastore or alternatively in the browsers local storage. The data format is:
 
 ~~~json
 {
@@ -40,7 +39,7 @@ wget https://github.com/MatthiasWiesner/mysecrets/archive/master.zip
 ~~~
 
 Now you only need to open the `index.html` file with the browser.
-Alternatively, you can store the website on a storage of your choice (dropbox, AWS, google cloud).
+Alternatively, you can store the website on a storage of your choice (dropbox, AWS, google cloud, firebase, ppp.).
 
 ### Local Storage
 
@@ -48,56 +47,28 @@ To store your secrets locally, you only have to open the `index.html` file with 
 
 `file:///path/to/index.html?be=local`
 
-### Dropbox Configuration
+### Remote backend
 
-To store your secrets on dropbox, you need to do some configuration steps.
+The advantage in remote data store is located in the central access to data, regardless of the device. So you can access your secrets on the laptop at home, the workstation at your workplace or on your mobile.
 
-You have to create a dropbox account, if missing. Next, create a "Dropbox API 
-app" to get a datastore in which your secrets are stored:
+Dropbox offered for some time a datastore service which was used in an earlier version. But dropbox set this datastore as deprecated (how sad, it was very fast).
 
-1. Login to your dropbox account and change to: [Dropbox Developer - App Console]
-2. Create a "Dropbox API app", choose "Datastores only" and set a name for the app.
-3. In the apps settings, generate an access token (under OAuth 2)
+The current version uses [Firebase] app & database as backend and host. The authentification at firebase uses currently google oauth2 (so you need a google account as well).
 
-To get *mysecrets* authorized to dropbox, you need the "App key" and the 
-"Generated access token", both from the dropbox apps settings.
-Create a `credentials.js` file next to `index.html` and fill the corresponding
-values:
+### Store website on firebase
 
-~~~javascript
-var credentials = {
-    "key": "<APP_KEY>",
-    "token": "<ACCESS_TOKEN>"
-};
-~~~
-
-### Store website on dropbox
-
-Since you already have a dropbox account, you can store the website on dropbox as well.
-Move the folder (including `credentials.js`) to the dropbox's public folder. Get the public link of the `index.html` file (right-click on the file in the dropbox's web ui) and bookmark it.
+After one has created an account on [Firebase], you must still perform some steps that are explained in detail in the firebase documentation. These steps have mostly to do with the authorization. For this website is currently google oauth implemented, but firebase provides also facebook, twitter and github oauth.
 
 ## Editing
 
-If you want to edit the website, you want to un/comment the html blocks in `index.html`: line 9-28 and line 33-34.
+The website uses many third party JS libraries, which are not part of the repository. The libraries have to be fetched with [bower]. 
 
-The files you want to edit are `static/js/main.js`, `static/css/main.css` and the `index.html` (especially the templates at the bottom).
+The files you want to edit are `public/js/mysecrets.js`, `public/js/mysecrets.css` and the `public/index.html` (especially the templates at the bottom). For better debugging you should comment/uncomment the accordingly js files in `public/index.html`. By default only the compressed files are loaded.
 
-The compression of all js and css files is done by [Grunt]. So you have to install [Grunt], if not already installed.
-
-Install all needed grunt modules (only once at the first run) by:
-~~~
-$ npm install
-~~~
-
-After your changes in js and css files create `static/js/combined.min.js` and `static/css/combined.min.css` by:
-~~~
-$ grunt
-~~~
-in the website folder.
-
-You have to re-un/comment the html blocks of course to use the combined js and css files.
+The compression of all js and css files is done by [Grunt].
 
 [GitHub: multiple users]: https://github.com/MatthiasWiesner/mysecrets/tree/multiuser
 [CryptoJS]: https://code.google.com/p/crypto-js/
-[Dropbox Developer - App Console]: https://www.dropbox.com/developers/apps
+[Firebase]: https://www.firebase.com/
+[bower]: http://bower.io/
 [Grunt]: http://gruntjs.com/

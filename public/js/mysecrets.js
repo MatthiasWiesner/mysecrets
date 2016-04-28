@@ -9,6 +9,7 @@ function EnDeCrypt(passphrase){
         var key = CryptoJS.PBKDF2(this.passphrase, salt, {keySize: 256/32, iterations: 1000 });
         var encrypted = CryptoJS.AES.encrypt(message, key, {mode: CryptoJS.mode.CBC, iv: iv });
 
+
         var key_encrypted = CryptoJS.AES.encrypt(key.toString(), this.passphrase, {mode: CryptoJS.mode.CBC, iv: iv });
 
         return encrypted.toString() + ':' + key_encrypted.toString() + ':' + iv.toString();
@@ -340,18 +341,10 @@ function startMySecrets(passphrase, backend){
     new MySecrets().start(passphrase, backend);
 }
 
-function initBackend(backend, passphrase, credentialsFile){
-    if (credentialsFile) {
-        $.getScript(credentialsFile).done(function(){
-            backend.init(credentials, function(){
-                startMySecrets(passphrase, backend);
-            });
-        });
-    } else {
-        backend.init(undefined, function(){
-            startMySecrets(passphrase, backend);
-        });
-    }
+function initBackend(backend, passphrase){
+    backend.init(function(){
+        startMySecrets(passphrase, backend);
+    });
 }
 
 function initMySecrets(){
@@ -359,8 +352,8 @@ function initMySecrets(){
     var passphrase = $.localStorage.get(passphraseName);
 
     var backends = {
-        local: {clazz: LocalBackend, credentialsFile: undefined},
-        default: {clazz: DropboxBackend, credentialsFile: './credentials.js'}
+        local: {clazz: LocalBackend},
+        default: {clazz: FirebaseBackend}
     };
 
     if ($.getUrlVar('be') != undefined && backends[$.getUrlVar('be')] != undefined) {
@@ -370,7 +363,6 @@ function initMySecrets(){
     }
 
     var clazz = backendDef['clazz'];
-    var credentialsFile = backendDef['credentialsFile'];
     var backend = new clazz();
 
     if (passphrase == '' || passphrase == null) {
@@ -385,10 +377,10 @@ function initMySecrets(){
                 $.localStorage.set(passphraseName, passphrase);
             }
             $('#setPassphrase').hide();
-            initBackend(backend, passphrase, credentialsFile);
+            initBackend(backend, passphrase);
         });
     } else {
-        initBackend(backend, passphrase, credentialsFile);
+        initBackend(backend, passphrase);
     }
 
     $('#btnClearPassphrase').on('click', function(){
