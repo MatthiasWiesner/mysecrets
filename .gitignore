@@ -6,3 +6,4 @@ public/js/combined.js
 public/css/combined.css
 node_modules
 credentials.js
+firebase.json
