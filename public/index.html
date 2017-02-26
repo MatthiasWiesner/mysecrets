@@ -286,13 +286,17 @@
 
 <script type="text/template" id="tplCategory">
     <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="heading{{index}}"><h4
-                class="panel-title"><a data-toggle="collapse"
-                                       data-parent="#accordion"
-                                       href="#collapse{{index}}"
-                                       aria-expanded="true"
-                                       aria-controls="collapse{{index}}">{{category}}</a>
-        </h4>
+        <div class="panel-heading" role="tab" id="heading{{index}}">
+            <h4 class="panel-title">
+                <a
+                    data-toggle="collapse"
+                    data-parent="#accordion"
+                    href="#collapse{{index}}"
+                    aria-expanded="true"
+                    aria-controls="collapse{{index}}">{{category}}
+                </a>
+                <button class="newCategoryDoc btn btn-default btn-xs hidden-xs pull-right glyphicon glyphicon-plus"></button>
+            </h4>
         </div>
     </div>
 </script>

@@ -45,6 +45,11 @@ function MySecrets(){
         $('#detailsModal').modal('show');
     };
 
+    this.newCategoryDoc = function(category) {
+        $('input[data-data-field="category"]', $('#createSecretForm')).val(category);
+        $('#newModal').modal('show');
+    }
+
     this.getSecrets = function(){
         this.backend.getSecrets($.proxy(function(data){
             var $mySecretEntries = $('#mySecretEntries');
@@ -142,6 +147,8 @@ function MySecrets(){
                         return $(trigger.getAttribute('data-clipboard-target')).val();
                     }
                 });
+
+                $('button.newCategoryDoc', $category).on('click', $.proxy(this.newCategoryDoc, this, category));
 
             }, this));
             $mySecretEntries.append($accordion);
@@ -299,6 +306,7 @@ function MySecrets(){
                 $('textarea[data-data-field="tags"]', $('#createSecretForm')).val()
             );
             $("#createSecretForm")[0].reset();
+            $('#newModal').modal('hide');
         }, this));
 
         $("#updateSecret").on('click', $.proxy(function(){
