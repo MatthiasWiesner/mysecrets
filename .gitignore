@@ -5,5 +5,8 @@ bower_components
 public/js/combined.js
 public/css/combined.css
 node_modules
-credentials.js
+.firebaserc
 firebase.json
+database.rules.json
+public/bower_components
+public/js/firebase_config.js

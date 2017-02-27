@@ -26,10 +26,14 @@ module.exports = function(grunt) {
                     'bower_components/cryptojslib/components/evpkdf.js',
                     'bower_components/cryptojslib/components/cipher-core.js',
                     'bower_components/cryptojslib/rollups/aes.js',
+                    'bower_components/cryptojslib/rollups/sha1.js',
+                    'bower_components/cryptojslib/rollups/hmac.js',
                     'bower_components/cryptojslib/rollups/pbkdf2.js',
                     'bower_components/mustache/mustache.js',
                     'bower_components/clipboard/dist/clipboard.js',
-                    'bower_components/firebase/firebase.js'
+                    'bower_components/firebase/firebase-app.js',
+                    'bower_components/firebase/firebase-auth.js',
+                    'bower_components/firebase/firebase-database.js'
                 ],
                 dest : 'public/js/combined.js'
             }
