@@ -6,6 +6,7 @@
     <title>Keep it secret, keep it safe</title>
 
     <!-- TOGGLE COMMENT, TO DEBUG OR EDIT
+    -->
     <link rel="shortcut icon" href="./favicon.ico">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="../bower_components/jquery-ui/themes/base/jquery-ui.css" type="text/css">
@@ -35,12 +36,11 @@
     <script type="text/javascript" src="../bower_components/firebase/firebase-app.js"></script>
     <script type="text/javascript" src="../bower_components/firebase/firebase-auth.js"></script>
     <script type="text/javascript" src="../bower_components/firebase/firebase-database.js"></script>
-    -->
 
     <!-- TOGGLE COMMENT, TO DEBUG OR EDIT
-    -->
     <link rel="stylesheet" href="./css/combined.min.css" type="text/css">
     <script type="text/javascript" src="./js/combined.min.js"></script>
+    -->
 
     <script type="text/javascript" src="./js/firebasebackend.js"></script>
     <script type="text/javascript" src="./js/localbackend.js"></script>
@@ -70,26 +70,6 @@
 </nav>
 <div id="content" class="container">
     <div id="containerMySecret" class="col-md-9 containerBorder">
-        <div id="setPassphrase">
-            <label for="passphrase">Passphrase</label>
-            <div class="form-group input-group btn-group input-group-sm">
-                <input type="password" class="form-control" id="passphrase" placeholder="Enter passphrase">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-default passwordVisible">
-                        <span class="glyphicon glyphicon-eye-open"></span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="store_passphrase" class="checkbox-inline">
-                    <input type="checkbox" id="store_passphrase" placeholder="Store passphrase"> Store passphrase in local browser storage (Attention, this is considered to be insecure!)
-                </label>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-default submit">Submit</button>
-            </div>
-        </div>
         <div id="mySecrets">
             <ul class="nav nav-pills">
                 <li role="presentation" id="btnCreateSecret" class="active" data-toggle="modal" data-target="#newModal"><a href="#">Enter A New Secret</a></li>
@@ -103,6 +83,40 @@
 </div>
 
 <!-- TEMPLATES -->
+<script type="text/template" id="tplSetPassphraseContainer">
+<div id="setPassphrase">
+    <label for="passphrase">Choose Passphrase</label>
+    <div id="passphraseList">
+    </div>
+    <div class="form-group">
+        <label for="store_passphrase" class="checkbox-inline">
+            <input type="checkbox" id="store_passphrase" placeholder="Store passphrase"> Store passphrase in local browser storage (Attention, this is considered to be insecure!)
+        </label>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default submit">Submit</button>
+    </div>
+</div>
+</script>
+
+<script type="text/template" id="tplNewPassphrase">
+<div class="form-group input-group btn-group input-group-sm">
+    <div class="input-group-addon">
+        <input type="radio" name="choose_passphrase" aria-label="choose this passphrase">
+    </div>
+    <input type="password" class="form-control passphrase" value="{{passphrase}}" placeholder="Enter passphrase">
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-default passwordVisible">
+            <span class="glyphicon glyphicon-eye-open"></span>
+        </button>
+    </div>
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-default addpassphrase">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </div>
+</div>
+</script>
 
 <script type="text/template" id="tplNewModal">
     <!-- Modal NewSecret -->

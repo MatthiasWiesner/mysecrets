@@ -3,7 +3,7 @@ function FirebaseBackend(){
     this.datastore;
     var self = this;
 
-    this.init = function(callback){
+    this.init = function(dbname, callback){
         if (typeof(config) == 'undefined') {
             msg  = "You need the firebase config. Create a file 'public/js/firebase_config.js'.\n"
             msg += "Get the config from the firebase app overview (Add firebase to web-app).\n"
@@ -11,15 +11,12 @@ function FirebaseBackend(){
             bootbox.alert(msg);
         } else {
             firebase.initializeApp(config);
-            // PopUp Version - work's, but is unfriendly
-            // SignInWithRedirect, just leads to a redirect loop
-
             var provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).then(function(result) {
-                self.datastore = firebase.database().ref('/mysecrets');
+                self.datastore = firebase.database().ref(dbname);
                 callback();
             }).catch(function(error) {
-                bootbox.alert(errorMessage);
+                bootbox.alert(error);
             });
         }
     };

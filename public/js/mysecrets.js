@@ -21,12 +21,19 @@ function EnDeCrypt(passphrase){
         var key_encrypted = parts[1];
         var iv = CryptoJS.enc.Hex.parse(parts[2])
 
-        var key_string = CryptoJS.AES.decrypt(key_encrypted, this.passphrase).toString(CryptoJS.enc.Utf8);
-        var decrypted = CryptoJS.AES.decrypt(message, CryptoJS.enc.Hex.parse(key_string), {iv: iv});
-
-        return decrypted.toString(CryptoJS.enc.Utf8);
+        try {
+            var key_string = CryptoJS.AES.decrypt(key_encrypted, this.passphrase).toString(CryptoJS.enc.Utf8);
+            var decrypted = CryptoJS.AES.decrypt(message, CryptoJS.enc.Hex.parse(key_string), {iv: iv});
+            result = decrypted.toString(CryptoJS.enc.Utf8);
+            if(result.length > 0){
+                return result;
+            }
+        } catch (err) {
+            alert("The data couldn't be decrypted. Maybe they are enrypted with another passphrase.");
+        }
     };
 }
+
 
 function MySecrets(){
     this.backend;
@@ -64,16 +71,11 @@ function MySecrets(){
             var categories = {};
             $.each(data, $.proxy(function(i, doc){
                 var decrypted_data;
-                try {
-                    decrypted_data = this.endecrypt.decrypt(doc.get('data'));
-                } catch (err) {
-                    alert('Some could not be decrypted. Try another passphrase.');
-                    return true;
-                }
+                decrypted_data = this.endecrypt.decrypt(doc.get('data'));
                 // altough with a wrong passphrase the decypt function returns an empty string
                 // instead of raise an error
                 if (!decrypted_data) {
-                    alert('Some could not be decrypted. Try another passphrase.');
+                    /// alert('Some could not be decrypted. Try another passphrase.');
                     return true;
                 }
 
@@ -350,14 +352,14 @@ function startMySecrets(passphrase, backend){
 }
 
 function initBackend(backend, passphrase){
-    backend.init(function(){
+    var dbname = CryptoJS.SHA1(passphrase).toString();
+    backend.init(dbname, function(){
         startMySecrets(passphrase, backend);
     });
 }
 
 function initMySecrets(){
-    var passphraseName = 'passphrase';
-    var passphrase = $.localStorage.get(passphraseName);
+    var passphraseList = $.localStorage.get('passphraseList') || new Array();
 
     var backends = {
         local: {clazz: LocalBackend},
@@ -373,28 +375,60 @@ function initMySecrets(){
     var clazz = backendDef['clazz'];
     var backend = new clazz();
 
-    if (passphrase == '' || passphrase == null) {
-        $('#setPassphrase').show();
-        // toggle passphrase visibility
-        $('.passwordVisible', $('#setPassphrase')).on('click', function(){
-            $('#passphrase').toggleAttr("type", "text", "password");
-        });
-        $('#setPassphrase button.submit').click(function(){
-            passphrase = $("#passphrase").val();
-            if ($("#store_passphrase").is(":checked")) {
-                $.localStorage.set(passphraseName, passphrase);
-            }
-            $('#setPassphrase').hide();
-            initBackend(backend, passphrase);
-        });
-    } else {
-        initBackend(backend, passphrase);
+    var $passphraseContainer = $('#tplSetPassphraseContainer').html();
+
+    $("#containerMySecret").prepend($passphraseContainer);
+
+    if (passphraseList.length == 0) {
+        passphraseList.push("");
     }
+    for (var passphrase of passphraseList) {
+        var $passphraseRow = $(Mustache.render($("#tplNewPassphrase").html(), {passphrase: passphrase}));
+        $("#passphraseList").append($passphraseRow);
+    };
+    $('input[type="radio"]', $("#passphraseList")).first().prop("checked", true);
+
+    $("button.addpassphrase").on('click', function(){
+        var $newPassphrase = $(Mustache.render($("#tplNewPassphrase").html(), {passphrase: ""}));
+        $("#passphraseList").append($newPassphrase);
+    });
+
+    // toggle passphrase visibility
+    $('.passwordVisible', $('#setPassphrase')).on('click', function(){
+        $('.passphrase', $(this).parent().parent()).toggleAttr("type", "text", "password");
+    });
+    $('#setPassphrase button.submit').click(function(){
+        var passphrase
+        var passphraseList = [];
+        $(".passphrase").each(function(){
+            var p = $(this).val().trim();
+            if(p.length > 0) {
+                passphraseList.push(p);
+
+                var choosen_input = $('input[type="radio"]', $(this).parent());
+                if (choosen_input.prop('checked')) {
+                    passphrase = p;
+                }
+            }
+        });
+
+        if (passphrase == '' || passphrase == undefined || passphraseList.length == 0) {
+            alert("You have to provide a passphrase");
+            return false;
+        }
+
+        if ($("#store_passphrase").is(":checked")) {
+            $.localStorage.set('passphraseList', passphraseList);
+        }
+
+        $('#setPassphrase').hide();
+        initBackend(backend, passphrase);
+    });
 
     $('#btnClearPassphrase').on('click', function(){
         bootbox.confirm("Are you sure?", function(result) {
             if (result) {
-                $.localStorage.remove(passphraseName);
+                $.localStorage.remove('passphraseList');
                 location.reload();
             }
         });

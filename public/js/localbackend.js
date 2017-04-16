@@ -28,6 +28,7 @@ function BackendEntry(){
 }
 
 function LocalBackend(){
+    this.dbname;
     this.datastore;
 
     this.generateUUID = function() {
@@ -46,17 +47,18 @@ function LocalBackend(){
     };
 
     this._getSecrets = function(){
-        return this.datastore.get('secrets').map(function(el){
+        return this.datastore.get(this.dbname).map(function(el){
             var elem = new BackendEntry();
             elem.init(el);
             return elem;
         });
     };
 
-    this.init = function(callback){
+    this.init = function(dbname, callback){
+        this.dbname = dbname;
         this.datastore = $.localStorage;
-        if (this.datastore.get('secrets') == undefined){
-            this.datastore.set('secrets', new Array());
+        if (this.datastore.get(this.dbname) == undefined){
+            this.datastore.set(this.dbname, new Array());
         }
         callback();
     };
@@ -88,20 +90,20 @@ function LocalBackend(){
         secret.tags = secretData.tags;
         secret.date = String(new Date());
 
-        this.datastore.set('secrets', secretsTable);
+        this.datastore.set(this.dbname, secretsTable);
 
         callback();
     };
 
     this.deleteSecret = function(recordId, callback){
-        var secretsTable = this.datastore.get('secrets');
+        var secretsTable = this.datastore.get(this.dbname);
         var idx = secretsTable.findIndex(function(el){
             return el.id == recordId;
         })
         if (idx >= 0) {
             secretsTable.splice(idx, 1);
         }
-        this.datastore.set('secrets', secretsTable);
+        this.datastore.set(this.dbname, secretsTable);
         callback();
     };
 }
