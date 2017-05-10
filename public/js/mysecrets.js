@@ -394,9 +394,10 @@ function initMySecrets(){
     });
 
     // toggle passphrase visibility
-    $('.passwordVisible', $('#setPassphrase')).on('click', function(){
+    $('#setPassphrase').on('click', '.passwordVisible', function(){
         $('.passphrase', $(this).parent().parent()).toggleAttr("type", "text", "password");
     });
+
     $('#setPassphrase button.submit').click(function(){
         var passphrase
         var passphraseList = [];
